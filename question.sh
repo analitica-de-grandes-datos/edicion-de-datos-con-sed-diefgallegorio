@@ -42,14 +42,4 @@
 #  >>> Escriba su codigo a partir de este punto <<<
 #
 
-# Convierte el formato de las fechas de DD/MM/YY a YYYY-MM-DD
-sed -E 's|^([0-9]{2})/([0-9]{2})/([0-9]{2})|20\3-\2-\1|' "$1" |
-# Transforma los campos nulos en \N
-sed -E 's/,(\\N),/,\\N,/g; s/^(\\N),/\\N,/; s/,(\\N)$/,\\N/; s/,[a-z]/\U&,/' |
-# Reemplaza los ; por ,
-sed 's|;|,|g' |
-# Usa el . para indicar decimales
-sed 's|,\([0-9]*\),\([0-9]*\)$|,\1.\2|' |
-
-#Upper to mac
-tr 'a-z' 'A-Z' 
+cat data.csv | sed 's/\([0-9][0-9]\)\/\([0-9][0-9]\)\/\([0-9][0-9]\)/20\3-\2-\1/g' | sed 's/\([0-9]\)\/\([0-9]\)\/\([0-9][0-9][0-9][0-9]\)/\3-0\2-0\1/g' | sed 's/\(;\\n;\)/;\\'N';/g' | sed 's/\(;N;\)/;\\'N';/g' | sed 's/\(;;\)/;\\'N';/g' | sed 's/\(;$\)/;\\'N'/g' | sed 's/\(;n\)/;\\'N'/g' | sed 's/\(,\)/./g' | sed 's/\(;\)/,/g' | sed 's/[a-z]/\U&/g'
